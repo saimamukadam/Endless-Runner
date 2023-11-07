@@ -1,7 +1,7 @@
 /*
 NAME: Saima Mukadam
-GAME TITLE: 
-HRS SPENT: 10
+GAME TITLE: STAR RUN
+HRS SPENT: 12
 CREATIVE TILT: I created a pixel-art based game to mimic a platformer game's art style. The basis of my
 game is that you are playing as a character and are running along a grassy path collecting stars for points
 while avoiding monsters. If you hit a monster you die but you can try killing them first by shooting a beam
