@@ -28,6 +28,11 @@ class Menu extends Phaser.Scene {
         menuConfig.backgroundColor = '#000000';
         menuConfig.color = '#89CFF0';
         this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'Press (SPACE) to start)', menuConfig).setOrigin(0.5);
+        //this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'CREDITS:', menuConfig).setOrigin(0.5);
+        //this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'Designer: Saima Mukadam', menuConfig).setOrigin(0.5);
+        //this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'Assets: Saima Mukadam', menuConfig).setOrigin(0.5);
+        //this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'Music: Bensound.com/royalty-free-music', menuConfig).setOrigin(0.5);
+
 
         // define keys
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);

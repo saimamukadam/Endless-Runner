@@ -11,6 +11,8 @@ class Character extends Phaser.Physics.Arcade.Sprite {
         // set custom Character properties
         this.characterVelocity = 100 // in pixels
     }
+    
+// 32 x 60 is 1 character frame
 
     // reset character
     reset() {

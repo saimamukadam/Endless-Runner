@@ -1,0 +1,83 @@
+{
+	"textures": [
+		{
+			"image": "mctextureatlas.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 31,
+				"h": 153
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "mcspriteleftfoot.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 32,
+						"h": 60
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 6,
+						"w": 29,
+						"h": 49
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 29,
+						"h": 49
+					}
+				},
+				{
+					"filename": "mcspriterightfoot.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 32,
+						"h": 60
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 6,
+						"w": 29,
+						"h": 49
+					},
+					"frame": {
+						"x": 1,
+						"y": 52,
+						"w": 29,
+						"h": 49
+					}
+				},
+				{
+					"filename": "mcspriterightstanding.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 32,
+						"h": 60
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 6,
+						"w": 29,
+						"h": 49
+					},
+					"frame": {
+						"x": 1,
+						"y": 103,
+						"w": 29,
+						"h": 49
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:10cf6e811761a9abff065cc28e850a0d:c375c73bb4d39f129686f7804f701384:24b7e124776c26709b5da1a277eb215e$"
+	}
+}
