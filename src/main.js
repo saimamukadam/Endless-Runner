@@ -36,6 +36,9 @@ let config = {
 // define game
 let game = new Phaser.Game(config);
 
+let cursors
+let { height, width } = game.config
+
 // global game options
 let gameOptions = {
     // platform speed range, in pixels per second
