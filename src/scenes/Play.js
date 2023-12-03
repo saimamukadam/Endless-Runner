@@ -4,16 +4,14 @@ class Play extends Phaser.Scene {
     }
 
     preload() {
-        // load audio
-        // this.load.audio('sfx_bgmusic', './assets/highoctane.wav');
 
         // load sprites
         this.load.image('background', './assets/background.png');
-        //this.load.image('star', './assets/star.png');
-        this.load.image('platform', './assets/platform.png');
+        this.load.image('star', './assets/star.png');
+        this.load.image('monster', './assets/monster.png');
 
-        // load mc spritesheet
-        // spritesheet size: 32x180, 3 sprites
+        // load mc
+        // spritesheet size: 32x180, 3 frames
         this.load.spritesheet('mcspritesheet', './assets/mcspritesheet.png', {
             frameWidth: 32, 
             frameHeight: 60
@@ -21,66 +19,35 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-        // scrolling background
+        // place background sprite
         this.background = this.add.tileSprite(0, 0, 700, 375, 'background').setOrigin(0,0);
-
-        // add character
-        //this.maincharacter = new mainCharacter(this, gameconfig.width/2, game.config.height - borderUISize - borderPadding, 'tile00').setOrigin(0.5,0);
+        
+        // add player
+        this.player = new Player(this, width/5, height/1.41, 'player').setOrigin(0,0);
+        //this.player = new Player(this, width + borderUISize*6, borderUISize*10.3 + borderPadding*2, 'player').setOrigin(0,0);
+        // ^ that was making the player spawn rightmost on the screen for some reason
+        
+        // add monster
+        this.monster = new Monster(this, width + borderUISize*6, borderUISize*10.3 + borderPadding*2, 'monster', 0,10).setOrigin(0,0);
 
         // add star
-        //this.star = new star(this, gameconfig.width/2, game.config.height - borderUISize - borderPadding, 'star').setOrigin(0.5,0);
-
-        // define keys
-        //keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
-        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-        
-        // initialize score
-
-        // display scores
-
-        /*
-        // group with all active platforms.
-        this.platformGroup = this.add.group({
-
-            // once a platform is removed, it's added to the pool
-            removeCallback: function(platform){
-                platform.scene.platformPool.add(platform)
-            }
-        });
-        */
-
-        /*
-        // pool
-        this.platformPool = this.add.group({
-
-            // once a platform is removed from the pool, it's added to the active platforms group
-            removeCallback: function(platform){
-                platform.scene.platformGroup.add(platform)
-            }
-        });
-        */
-
-        // number of consecutive jumps made by the player
-        this.playerJumps = 0;
-
-        /*
-        // adding a platform to the game, the arguments are platform width, x position and y position
-        this.addPlatform(game.config.width, game.config.width / 2, game.config.height * gameOptions.platformVerticalLimit[1]);
-        */
+        this.star = new Star(this, width + borderUISize*7, borderUISize*6 + borderPadding*2, 'star', 0,20).setOrigin(0,0);
 
         // worldbounds and physics
-        this.player = this.physics.add.sprite(width / 4, height / 4, 'mcspritesheet', 1) 
-        this.player.body.setCollideWorldBounds(true)
-        this.player.body.setSize(32,60).setOffset(2,55)
-        this.PLAYER_VELOCITY = 350
+        //this.player = this.physics.add.sprite(width/4, height/1.25, 'mcspritesheet', 1) 
+        //this.player.body.setCollideWorldBounds(true)
+        //this.player.body.setSize(32,60)
+        //this.PLAYER_VELOCITY = 350
+        //this.player.setGravityY(gameOptions.playerGravity); // player falling from sky in beginning, this is funny, looks like hes spawning
 
-
-        // adding the player;
-        //this.player = this.physics.add.sprite(gameOptions.playerStartPosition, game.config.height * 0.7, "mcspritesheet");
-        this.player.setGravityY(gameOptions.playerGravity); // player falling from sky in beginning, this is funny
+        //this.monster = this.physics.add.sprite(width / 4, height / 4, 'monster', 1)
+        //this.monster.body.setSize(40,40)
+        //this.star = this.physics.add.sprite(width / 4, height / 4, 'star', 1)
+        //this.star.body.setSize(40,40)
 
         // set cursor keys
-        cursors = this.input.keyboard.createCursorKeys()
+        //cursors = this.input.keyboard.createCursorKeys()
+        //spaceKey = this.input.keyboard.addKey('SPACE')
 
         // setting player animation
         this.anims.create({
@@ -100,107 +67,74 @@ class Play extends Phaser.Scene {
                 end: 1
             }),
             frameRate: 6,
-            repeat: -1
+            repeat: 1
         });
 
         this.player.play('run')
         //this.player.play('jump')
+
+        // define keys
+        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         
-        /*
-        // setting collisions between the player and the platform group
-        this.physics.add.collider(this.player, this.platformGroup, function(){
+        // initialize score
+        this.playerScore =  0;
 
-            // play "run" animation if the player is on a platform
-            if(!this.player.anims.isPlaying){
-                this.player.anims.play("run");
+        // display score
+        let scoreConfig = {
+            fontFamily: 'Courier',
+            fontSize: '28px',
+            backgroundColor: '#F3B141',
+            color: '#843605',
+            align: 'right',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 100
+        }
+
+        this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.playerScore, scoreConfig);
+
+        // GAME OVER flag
+        this.gameOver = false;      
+        
+        // collisions
+        this.physics.add.collider(this.player, this.star, (player, star) => {
+            this.star.disableBody()
+            if(!this.gameOver){
+                this.playerScore++
+                this.star.reset()
             }
-        }, null, this);
+            this.star.enableBody()
+        })
 
-        // checking for input
-        this.input.on("pointerdown", this.jump, this);
-        */
+        this.physics.add.collider(this.player, this.monster, (player, monster) => {
+            this.gameOver = true;
+            this.player.body.setCollideWorldBounds(false)
+            this.player.body.setGravityX(0)
+        })
     }
-
-    /*
-    addPlatform(platformWidth, posX, posY){
-        let platform;
-        if(this.platformPool.getLength()){
-            platform = this.platformPool.getFirst();
-            platform.x = posX;
-            platform.active = true;
-            platform.visible = true;
-            this.platformPool.remove(platform);
-        }
-        else{
-            platform = this.physics.add.sprite(posX, posY, "platform");
-            platform.setImmovable(true);
-            platform.setVelocityX(Phaser.Math.Between(gameOptions.platformSpeedRange[0], gameOptions.platformSpeedRange[1]) * -1);
-            this.platformGroup.add(platform);
-        }
-        platform.displayWidth = platformWidth;
-        this.nextPlatformDistance = Phaser.Math.Between(gameOptions.spawnRange[0], gameOptions.spawnRange[1]);
-    }
-    */
-
-    /*
-    // the player jumps when on the ground, or once in the air as long as there are jumps left and the first jump was on the ground
-    jump(){
-        if(this.player.body.touching.SPACE || (this.playerJumps > 0 && this.playerJumps < gameOptions.jumps)){
-            if(this.player.body.touching.SPACE){
-                this.playerJumps = 0;
-            }
-            this.player.setVelocityY(gameOptions.jumpForce * -1);
-            this.playerJumps ++;
-
-            // stops animation
-            this.player.anims.stop();
-        }
-    }
-    */
 
     update() {
-        this.background.tilePositionX += 2;
 
-        //if(cursors.SPACE.isDown){
-          //  playerVector.y = 1
-            //playerDirection = 'jump'
-        //}
-        
+        if(!this.gameOver){
+            this.player.update()
+            this.star.update()
+            this.monster.update()
+
+            // scrolling background
+            this.background.tilePositionX += 2;
+        }
+
+        else{
+            this.player.stop()
+            this.scene.restart()
+        }
+
 
         // game over, restart
-        if(this.player.y > game.config.height){
-            this.scene.start("playScene");
+        if (this.gameOver) {
+            this.scene.restart();
         }
-        this.player.x = gameOptions.playerStartPosition;
-
-
-        /*
-        // recycling platforms
-        let minDistance = game.config.width;
-        let rightmostPlatformHeight = 0;
-        this.platformGroup.getChildren().forEach(function(platform){
-            let platformDistance = game.config.width - platform.x - platform.displayWidth / 2;
-            if(platformDistance < minDistance){
-                minDistance = platformDistance;
-                rightmostPlatformHeight = platform.y;
-            }
-            if(platform.x < - platform.displayWidth / 2){
-                this.platformGroup.killAndHide(platform);
-                this.platformGroup.remove(platform);
-            }
-        }, this);
-        
-        // adding new platforms
-        if(minDistance > this.nextPlatformDistance){
-            let nextPlatformWidth = Phaser.Math.Between(gameOptions.platformSizeRange[0], gameOptions.platformSizeRange[1]);
-            let platformRandomHeight = gameOptions.platformHeighScale * Phaser.Math.Between(gameOptions.platformHeightRange[0], gameOptions.platformHeightRange[1]);
-            console.log(rightmostPlatformHeight)
-            let nextPlatformGap = rightmostPlatformHeight + platformRandomHeight;
-            let minPlatformHeight = game.config.height * gameOptions.platformVerticalLimit[0];
-            let maxPlatformHeight = game.config.height * gameOptions.platformVerticalLimit[1];
-            let nextPlatformHeight = Phaser.Math.Clamp(nextPlatformGap, minPlatformHeight, maxPlatformHeight);
-            this.addPlatform(nextPlatformWidth, game.config.width + nextPlatformWidth / 2, nextPlatformHeight);
-        }
-        */
     }
 }

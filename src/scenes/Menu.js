@@ -5,7 +5,7 @@ class Menu extends Phaser.Scene {
 
     preload() {
         // load audio
-        this.load.audio('sfx_bgmusic', './assets/highoctane.wav');
+        this.load.audio('bgmusic', './assets/PixelPeekerPolka.wav');
     }
 
     create() {
@@ -39,13 +39,15 @@ class Menu extends Phaser.Scene {
     }
     
     update() {
-        if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
-            // start game
-            /*
+        if (Phaser.Input.Keyboard.JustDown(keySPACE)) { // start game
+            
             game.settings = {
-            } */
-            this.sound.play('sfx_bgmusic');
-            this.scene.start('playScene');    
+                monsterSpeed: 4,
+                starSpeed: 3
+            }
+            
+            this.sound.play('bgmusic');
+            this.scene.start('playScene');
         }
     }
 
