@@ -4,6 +4,10 @@ class Play extends Phaser.Scene {
     }
 
     preload() {
+        //load audio
+        this.load.audio('jump', './assets/jump.wav');
+        this.load.audio('chaching', './assets/chaching.wav');
+        this.load.audio('sadbeep', './assets/sadbeep.wav');
 
         // load sprites
         this.load.image('background', './assets/background.png');
@@ -19,6 +23,14 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+        
+        // audio
+        this.chaching = this.sound.add('chaching', {loop: false});
+        this.sadbeep = this.sound.add('sadbeep', {loop: false});
+        this.jumpsound = this.sound.add('jump', {loop: false});
+
+        this.physics.world.setBounds(0, 0, width, height-55, true, true, true, true)
+
         // place background sprite
         this.background = this.add.tileSprite(0, 0, 700, 375, 'background').setOrigin(0,0);
         
@@ -38,7 +50,7 @@ class Play extends Phaser.Scene {
         //this.player.body.setCollideWorldBounds(true)
         //this.player.body.setSize(32,60)
         //this.PLAYER_VELOCITY = 350
-        //this.player.setGravityY(gameOptions.playerGravity); // player falling from sky in beginning, this is funny, looks like hes spawning
+        //this.player.setGravityY(800); // player falling from sky in beginning, this is funny, looks like hes spawning
 
         //this.monster = this.physics.add.sprite(width / 4, height / 4, 'monster', 1)
         //this.monster.body.setSize(40,40)
@@ -73,46 +85,55 @@ class Play extends Phaser.Scene {
         this.player.play('run')
         //this.player.play('jump')
 
-        // define keys
-        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-        
-        // initialize score
-        this.playerScore =  0;
-
-        // display score
-        let scoreConfig = {
-            fontFamily: 'Courier',
-            fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
-            align: 'right',
-            padding: {
-                top: 5,
-                bottom: 5,
-            },
-            fixedWidth: 100
-        }
-
-        this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.playerScore, scoreConfig);
-
         // GAME OVER flag
-        this.gameOver = false;      
+        this.gameOver = false;    
+
+        // initialize score
+        this.score =  0;  
         
         // collisions
         this.physics.add.collider(this.player, this.star, (player, star) => {
             this.star.disableBody()
             if(!this.gameOver){
-                this.playerScore++
+                this.chaching.play();
+                this.score += 5
                 this.star.reset()
             }
             this.star.enableBody()
         })
 
         this.physics.add.collider(this.player, this.monster, (player, monster) => {
+            this.sadbeep.play();
             this.gameOver = true;
             this.player.body.setCollideWorldBounds(false)
             this.player.body.setGravityX(0)
         })
+
+        // display score
+        
+        let scoreConfig = {
+            fontFamily: 'Courier',
+            fontSize: '28px',
+            backgroundColor: '#FFBF00',
+            color: '#C04000',
+            align: 'right',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 100
+            }
+        
+        this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.score, scoreConfig);
+
+        // jumping mechanics
+        this.input.on('pointerdown', this.jump, this)
+        
+    }
+
+    jump(){
+        this.player.setVelocityY(-450)
+        this.jumpsound.play()
     }
 
     update() {
@@ -131,9 +152,11 @@ class Play extends Phaser.Scene {
             this.scene.restart()
         }
 
+        this.scoreLeft.text = this.score
 
         // game over, restart
         if (this.gameOver) {
+            this.score = 0;
             this.scene.restart();
         }
     }

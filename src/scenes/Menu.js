@@ -11,27 +11,36 @@ class Menu extends Phaser.Scene {
     create() {
         let menuConfig = {
             fontFamily: 'Comic Sans',
-            fontSize: '24 px',
-            backgroundColor: '#FACADE',
-            color: '#FFFFFF',
+            fontSize: 44, // 24
+            backgroundColor: '#000000', // FFFFFF
+            color: '#6495ED', // 000000
             align: 'center',
             padding: {
-                top: 5,
-                bottom: 5,
+                top: 0,
+                bottom: 0,
             },
             fixedWidth: 0
         }
-
+        
         // menu text
-        this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding, 'STAR RUN', menuConfig).setOrigin(0.5);
-        this.add.text(game.config.width/2, game.config.height/2, 'Use (SPACE) to jump & (F) to shoot', menuConfig).setOrigin(0.5);
-        menuConfig.backgroundColor = '#000000';
+        this.add.text(game.config.width/2, game.config.height/2.75 - borderUISize - borderPadding, 'RUN CARL RUN !!!', menuConfig).setOrigin(0.5);
+        
+        menuConfig.color = '#6F8FAF';
+        menuConfig.fontSize = 20;
+        this.add.text(game.config.width/2, game.config.height/2.4, 'INSTRUCTIONS:', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2.1, 'collect stars and avoid monsters, click to jump', menuConfig).setOrigin(0.5);
+        
+        menuConfig.color = '#ADD8E6';
+        this.add.text(game.config.width/2, game.config.height/1.7, 'press (SPACE) to start', menuConfig).setOrigin(0.5);
+
         menuConfig.color = '#89CFF0';
-        this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'Press (SPACE) to start)', menuConfig).setOrigin(0.5);
-        //this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'CREDITS:', menuConfig).setOrigin(0.5);
-        //this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'Designer: Saima Mukadam', menuConfig).setOrigin(0.5);
-        //this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'Assets: Saima Mukadam', menuConfig).setOrigin(0.5);
-        //this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'Music: Bensound.com/royalty-free-music', menuConfig).setOrigin(0.5);
+        menuConfig.fontSize = 16
+        this.add.text(game.config.width/2, game.config.height/1.4, 'CREDITS:', menuConfig).setOrigin(0.5);
+        menuConfig.fontSize = 14
+
+        this.add.text(game.config.width/2, game.config.height/1.3, 'Designer: Saima Mukadam', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/1.22, 'Assets: Saima Mukadam', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/1.15, 'Music: Pixel Peeker Polka by Kevin Macleod', menuConfig).setOrigin(0.5);
 
 
         // define keys

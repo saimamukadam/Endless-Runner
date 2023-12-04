@@ -1,15 +1,19 @@
 /*
 NAME: Saima Mukadam
-GAME TITLE: RUN CARL RUN!!!
-HRS SPENT: 20
+GAME TITLE: RUN CARL RUN !!!
+HRS SPENT: 35
 CREATIVE TILT: I created a pixel-art based game to mimic a platformer game's art style. The basis of my
-game is that you are playing as a character and are running along a grassy path collecting stars for points
-while dodging rain clouds. The player is competitive against themself as they try to collect more stars and 
-beat their high score. I'm proud of the art I created because I had no idea where to start at first but I think 
-it looks nice for my first time. I had to learn how to use asesprite and it took me a while to get the hang of 
-it, but I was able to learn it quickly and created all of my visual assets through it. I also like my background 
-music and chose it because I felt that it would hype the player up as they were playing and was also a fun
-choice of background music.
+game is that you are playing as a character named Carl and are running along a grassy path collecting stars 
+for points while dodging monsters. The player is competitive against themself as they try to collect as many
+points as they can. I'm proud of the art I created because this was my first time creating pixel art and using
+Asesprite. I was able to get the hang of it quickly and I created all of my visual assets through it. I also 
+like my background music and chose it because I felt that it's a fun song and suits the game's art. I also like
+my star-collecting sound, jump sound, and death sound because they suit the actions they correspond with and also
+suit the pixel-art style. I spent the majority of time on gameplay and learned how to implement many things such 
+as collisions, jumping, animation, and more. I had to experiment a lot with the speeds of my moving objects to make
+it all in unison. In the future I'd implement a better-looking Title screen and a better way for the player to know 
+the game has reset and they died instead of just the score and sprites resetting. I'm proud of this game as it's my
+first big game project and I'm excited for my friends and family to play it.
 */
 
 // SOUND CREDITS:
@@ -29,7 +33,7 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: true
+            //debug: true
         }
     }
 }

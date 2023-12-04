@@ -5,9 +5,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this)
         scene.physics.add.existing(this)
 
-        this.body.setSize(this.width / 2, this.height / 2)
+        this.body.setSize(this.width, this.height*1.5).setOffset(0,6)
         this.body.setCollideWorldBounds(true)
-        //this.setGravityY(900) 
+        this.setGravityY(900) 
 
         // set custom Character properties
         this.playerVelocity = 350 // in pixels
@@ -16,10 +16,12 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
         // add sounds
         //this.play("run")
+       
     }
-    
+
     update(){
         // jumping mechanics
+
     }
 
     // reset character
